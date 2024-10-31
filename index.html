@@ -15,7 +15,6 @@
             color: white;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
             font-family: 'Roboto', sans-serif; /* Grotesk Schriftart */
             min-height: 100vh;
@@ -25,6 +24,7 @@
             font-weight: bold;
             margin: 0;
             text-align: center;
+            width: 100%; /* Überschrift über die gesamte Breite */
         }
         .pdf-preview {
             width: 80%;
@@ -36,19 +36,19 @@
         }
         .button-container {
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            justify-content: center; /* Buttons zentrieren */
             margin-top: 20px;
+            gap: 20px; /* Abstand zwischen den Buttons */
         }
         .button-container a {
             color: white;
-            font-size: 2rem; /* Schriftgröße der Buttons */
+            font-size: 1.5rem; /* Kleinere Schriftgröße für die Buttons */
             text-decoration: none;
-            margin: 10px 0;
             padding: 10px 20px;
             font-family: 'Roboto', sans-serif; /* Grotesk Schriftart für Buttons */
             text-align: center;
             display: inline-block;
+            border: none; /* Keine Umrandung */
         }
         .button-container a:hover {
             background-color: white;
@@ -64,8 +64,7 @@
                 height: auto;
             }
             .button-container a {
-                font-size: 1.5rem; /* Angepasste Schriftgröße für Buttons auf Tablets */
-                padding: 8px 16px;
+                font-size: 1.2rem; /* Angepasste Schriftgröße für Buttons auf Tablets */
             }
         }
         
@@ -115,6 +114,29 @@
                     viewport: viewport
                 };
                 page.render(renderContext);
+            });
+        });
+
+        // Vorschau durchklickbar machen
+        let currentPage = 1; // Aktuelle Seite
+        const totalPages = 25; // Gesamtseiten auf 25 gesetzt
+
+        const canvasElement = document.getElementById('pdf-canvas');
+        canvasElement.addEventListener('click', function() {
+            currentPage = (currentPage % totalPages) + 1; // Seite wechseln
+            pdfjsLib.getDocument(url).promise.then(pdf => {
+                pdf.getPage(currentPage).then(page => {
+                    const scale = 1.5; // Anpassung der Skalierung
+                    const viewport = page.getViewport({ scale: scale });
+                    canvasElement.width = viewport.width;
+                    canvasElement.height = viewport.height;
+
+                    const renderContext = {
+                        canvasContext: canvasElement.getContext('2d'),
+                        viewport: viewport
+                    };
+                    page.render(renderContext);
+                });
             });
         });
     </script>
