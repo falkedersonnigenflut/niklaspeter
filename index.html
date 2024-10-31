@@ -86,9 +86,9 @@
 
     <!-- Button Container -->
     <div class="button-container">
-        <a href="dein-portfolio.pdf" target="_blank">PDF im Vollbild anzeigen</a>
-        <a href="dein-portfolio.pdf" download>PDF herunterladen</a>
-        <a href="mailto:hello@niklaspeter.de">Kontakt</a>
+        <a href="dein-portfolio.pdf" target="_blank">Fullscreen</a>
+        <a href="dein-portfolio.pdf" download>Download</a>
+        <a href="mailto:hello@niklaspeter.de">Contact</a>
     </div>
 
     <!-- PDF-Vorschau -->
@@ -104,4 +104,34 @@
         // PDF laden
         pdfjsLib.getDocument(url).promise.then(pdf => {
             // Erste Seite rendern
-            pdf.getPage
+            pdf.getPage(1).then(page => {
+                const scale = 1.5; // Anpassung der Skalierung
+                const viewport = page.getViewport({ scale: scale });
+                const canvas = document.getElementById('pdf-canvas');
+                const context = canvas.getContext('2d');
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+
+                const renderContext = {
+                    canvasContext: context,
+                    viewport: viewport
+                };
+                page.render(renderContext);
+            });
+        });
+
+        // Vorschau durchklickbar machen
+        let currentPage = 1; // Aktuelle Seite
+        const totalPages = 25; // Gesamtseiten auf 25 gesetzt
+
+        const canvasElement = document.getElementById('pdf-canvas');
+        canvasElement.addEventListener('click', function() {
+            currentPage = (currentPage % totalPages) + 1; // Seite wechseln
+            pdfjsLib.getDocument(url).promise.then(pdf => {
+                pdf.getPage(currentPage).then(page => {
+                    const scale = 1.5; // Anpassung der Skalierung
+                    const viewport = page.getViewport({ scale: scale });
+                    canvasElement.width = viewport.width;
+                    canvasElement.height = viewport.height;
+
+                    const renderContext = 
