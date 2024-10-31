@@ -1,94 +1,47 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PDF-Anzeige</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
-  <style>
-    #pdf-container {
-      width: 100%;
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    #pdf-canvas {
-      border: 1px solid #ccc;
-      width: 100%;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Niklas Peter Portfolio</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: sans-serif;
+        }
+        h1 {
+            font-size: 10rem; /* angepasste Schriftgröße */
+            font-weight: bold;
+            margin: 0;
+            text-align: center;
+        }
+        .pdf-container {
+            width: 100%;
+            height: 80vh;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .pdf-container iframe {
+            width: 80%;
+            height: 100%;
+            border: none;
+        }
+    </style>
 </head>
 <body>
-  <div id="pdf-container">
-    <button onclick="prevPage()">Zurück</button>
-    <button onclick="nextPage()">Weiter</button>
-    <p>Seite <span id="page-num"></span> von <span id="page-count"></span></p>
-    <canvas id="pdf-canvas"></canvas>
-  </div>
-
-  <script>
-    // URL zur PDF-Datei
-    const url = './dein-pdf.pdf'; // Ersetze 'dein-pdf.pdf' mit dem Namen deiner PDF-Datei
-
-    // PDF.js Variablen
-    let pdfDoc = null,
-        pageNum = 1,
-        pageRendering = false,
-        pageNumPending = null,
-        scale = 1.5,
-        canvas = document.getElementById('pdf-canvas'),
-        ctx = canvas.getContext('2d');
-
-    // Lade die PDF-Datei
-    pdfjsLib.getDocument(url).promise.then(pdfDoc_ => {
-      pdfDoc = pdfDoc_;
-      document.getElementById('page-count').textContent = pdfDoc.numPages;
-      renderPage(pageNum);
-    });
-
-    // Zeigt eine bestimmte Seite der PDF an
-    function renderPage(num) {
-      pageRendering = true;
-      pdfDoc.getPage(num).then(page => {
-        let viewport = page.getViewport({ scale: scale });
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
-
-        let renderContext = {
-          canvasContext: ctx,
-          viewport: viewport
-        };
-        let renderTask = page.render(renderContext);
-
-        renderTask.promise.then(() => {
-          pageRendering = false;
-          if (pageNumPending !== null) {
-            renderPage(pageNumPending);
-            pageNumPending = null;
-          }
-        });
-      });
-
-      document.getElementById('page-num').textContent = num;
-    }
-
-    // Wechsel zur nächsten Seite
-    function nextPage() {
-      if (pageNum >= pdfDoc.numPages) {
-        return;
-      }
-      pageNum++;
-      renderPage(pageNum);
-    }
-
-    // Wechsel zur vorherigen Seite
-    function prevPage() {
-      if (pageNum <= 1) {
-        return;
-      }
-      pageNum--;
-      renderPage(pageNum);
-    }
-  </script>
+    <h1>Niklas Peter Portfolio</h1>
+    <div class="pdf-container">
+        <iframe src="dein-portfolio.pdf" type="application/pdf"></iframe>
+    </div>
 </body>
 </html>
