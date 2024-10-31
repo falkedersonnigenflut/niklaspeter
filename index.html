@@ -20,7 +20,7 @@
             min-height: 100vh;
         }
         h1 {
-            font-size: 10rem;
+            font-size: 6rem; /* Angepasste Schriftgröße */
             font-weight: bold;
             margin: 0;
             text-align: center;
@@ -29,8 +29,8 @@
             width: 80%;
             height: 50vh;
             margin-top: 20px;
-            border: 2px solid white;
             box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+            cursor: pointer;
         }
         .button-container {
             display: flex;
@@ -44,8 +44,6 @@
             text-decoration: none;
             margin: 10px 0;
             padding: 10px 20px;
-            border: 2px solid white;
-            border-radius: 5px;
             font-family: 'Roboto', sans-serif;
             text-align: center;
             display: inline-block;
@@ -57,7 +55,7 @@
 
         @media (max-width: 768px) {
             h1 {
-                font-size: 5rem;
+                font-size: 4rem; /* Angepasste Schriftgröße für Tablets */
             }
             .pdf-preview {
                 width: 90%;
@@ -71,7 +69,7 @@
         
         @media (max-width: 480px) {
             h1 {
-                font-size: 3rem;
+                font-size: 3rem; /* Schriftgröße für Smartphones */
             }
             .pdf-preview {
                 height: 35vh;
@@ -81,13 +79,17 @@
 </head>
 <body>
     <h1>Niklas Peter Portfolio</h1>
-    <!-- PDF Vorschau -->
-    <iframe src="dein-portfolio.pdf" class="pdf-preview" type="application/pdf"></iframe>
+    
+    <!-- PDF Vorschau mit Link zur Vollbildanzeige -->
+    <a href="dein-portfolio.pdf" target="_blank">
+        <img src="dein-pdf-vorschau.jpg" alt="PDF Vorschau" class="pdf-preview">
+    </a>
 
     <!-- Button Container -->
     <div class="button-container">
         <a href="dein-portfolio.pdf" target="_blank">PDF im Vollbild anzeigen</a>
         <a href="dein-portfolio.pdf" download>PDF herunterladen</a>
+        <a href="mailto:hello@niklaspeter.de">Kontakt</a>
     </div>
 </body>
 </html>
