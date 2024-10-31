@@ -134,4 +134,14 @@
                     canvasElement.width = viewport.width;
                     canvasElement.height = viewport.height;
 
-                    const renderContext = 
+                    const renderContext = {
+                        canvasContext: canvasElement.getContext('2d'),
+                        viewport: viewport
+                    };
+                    page.render(renderContext);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
