@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Niklas Peter Portfolio</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script> <!-- PDF.js Script -->
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap'); /* Beispiel für Grotesk-Schrift */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap'); /* Grotesk Schriftart */
         
         body {
             margin: 0;
@@ -16,18 +17,19 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Roboto', sans-serif; /* Grotesk Schriftart */
             min-height: 100vh;
         }
         h1 {
-            font-size: 6rem; /* Angepasste Schriftgröße */
+            font-size: 6rem; /* Titel Schriftgröße */
             font-weight: bold;
             margin: 0;
             text-align: center;
         }
         .pdf-preview {
             width: 80%;
-            height: 50vh;
+            height: auto; /* Höhe wird automatisch basierend auf der Breite angepasst */
+            max-height: 80vh; /* Maximalhöhe, um das Layout zu erhalten */
             margin-top: 20px;
             box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
             cursor: pointer;
@@ -40,11 +42,11 @@
         }
         .button-container a {
             color: white;
-            font-size: 2rem;
+            font-size: 2rem; /* Schriftgröße der Buttons */
             text-decoration: none;
             margin: 10px 0;
             padding: 10px 20px;
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Roboto', sans-serif; /* Grotesk Schriftart für Buttons */
             text-align: center;
             display: inline-block;
         }
@@ -59,10 +61,10 @@
             }
             .pdf-preview {
                 width: 90%;
-                height: 40vh;
+                height: auto;
             }
             .button-container a {
-                font-size: 1.5rem;
+                font-size: 1.5rem; /* Angepasste Schriftgröße für Buttons auf Tablets */
                 padding: 8px 16px;
             }
         }
@@ -72,18 +74,16 @@
                 font-size: 3rem; /* Schriftgröße für Smartphones */
             }
             .pdf-preview {
-                height: 35vh;
+                height: auto;
             }
         }
     </style>
 </head>
 <body>
     <h1>Niklas Peter Portfolio</h1>
-    
-    <!-- PDF Vorschau mit Link zur Vollbildanzeige -->
-    <a href="dein-portfolio.pdf" target="_blank">
-        <img src="dein-pdf-vorschau.jpg" alt="PDF Vorschau" class="pdf-preview">
-    </a>
+
+    <!-- PDF-Vorschau -->
+    <canvas id="pdf-canvas" class="pdf-preview"></canvas>
 
     <!-- Button Container -->
     <div class="button-container">
@@ -91,5 +91,32 @@
         <a href="dein-portfolio.pdf" download>PDF herunterladen</a>
         <a href="mailto:hello@niklaspeter.de">Kontakt</a>
     </div>
+
+    <script>
+        // PDF.js Initialisierung
+        const url = 'dein-portfolio.pdf'; // URL zur PDF-Datei
+        const pdfjsLib = window['pdfjs-dist/build/pdf'];
+
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
+
+        // PDF laden
+        pdfjsLib.getDocument(url).promise.then(pdf => {
+            // Erste Seite rendern
+            pdf.getPage(1).then(page => {
+                const scale = 1.5; // Anpassung der Skalierung
+                const viewport = page.getViewport({ scale: scale });
+                const canvas = document.getElementById('pdf-canvas');
+                const context = canvas.getContext('2d');
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+
+                const renderContext = {
+                    canvasContext: context,
+                    viewport: viewport
+                };
+                page.render(renderContext);
+            });
+        });
+    </script>
 </body>
 </html>
