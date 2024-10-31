@@ -6,7 +6,7 @@
     <title>Niklas Peter Portfolio</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script> <!-- PDF.js Script -->
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap'); /* Grotesk Schriftart */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap'); /* Roboto Mono Schriftart */
         
         body {
             margin: 0;
@@ -16,7 +16,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            font-family: 'Roboto', sans-serif; /* Grotesk Schriftart */
+            font-family: 'Roboto Mono', monospace; /* Roboto Mono Schriftart */
             min-height: 100vh;
         }
         h1 {
@@ -42,10 +42,10 @@
         }
         .button-container a {
             color: white;
-            font-size: 1.5rem; /* Kleinere Schriftgröße für die Buttons */
+            font-size: 1.2rem; /* Kleinere Schriftgröße für die Buttons */
             text-decoration: none;
             padding: 10px 20px;
-            font-family: 'Roboto', sans-serif; /* Grotesk Schriftart für Buttons */
+            font-family: 'Roboto Mono', monospace; /* Roboto Mono Schriftart für Buttons */
             text-align: center;
             display: inline-block;
             border: none; /* Keine Umrandung */
@@ -64,7 +64,7 @@
                 height: auto;
             }
             .button-container a {
-                font-size: 1.2rem; /* Angepasste Schriftgröße für Buttons auf Tablets */
+                font-size: 1rem; /* Angepasste Schriftgröße für Buttons auf Tablets */
             }
         }
         
@@ -81,15 +81,15 @@
 <body>
     <h1>Niklas Peter Portfolio</h1>
 
+    <!-- PDF-Vorschau -->
+    <canvas id="pdf-canvas" class="pdf-preview"></canvas>
+
     <!-- Button Container -->
     <div class="button-container">
         <a href="dein-portfolio.pdf" target="_blank">Fullscreen</a>
         <a href="dein-portfolio.pdf" download>Download</a>
         <a href="mailto:hello@niklaspeter.de">Contact</a>
     </div>
-
-    <!-- PDF-Vorschau -->
-    <canvas id="pdf-canvas" class="pdf-preview"></canvas>
 
     <script>
         // PDF.js Initialisierung
