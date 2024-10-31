@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Niklas Peter Portfolio</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap'); /* Beispiel für Grotesk-Schrift */
+        
         body {
             margin: 0;
             padding: 0;
@@ -14,58 +16,55 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            font-family: sans-serif;
+            font-family: 'Roboto', sans-serif;
             min-height: 100vh;
         }
         h1 {
-            font-size: 8rem;
+            font-size: 10rem;
             font-weight: bold;
             margin: 0;
             text-align: center;
         }
-        .pdf-link-container {
+        .pdf-preview {
+            width: 80%;
+            height: 50vh;
+            margin-top: 20px;
+            border: 2px solid white;
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+        }
+        .button-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             margin-top: 20px;
         }
-        .pdf-link {
+        .button-container a {
+            color: white;
             font-size: 2rem;
-            color: #007acc;
             text-decoration: none;
             margin: 10px 0;
             padding: 10px 20px;
-            border: 2px solid #007acc;
+            border: 2px solid white;
             border-radius: 5px;
+            font-family: 'Roboto', sans-serif;
+            text-align: center;
+            display: inline-block;
         }
-        .pdf-link:hover {
-            background-color: #007acc;
-            color: white;
-        }
-        .download-button {
-            font-size: 1.5rem;
-            color: white;
-            background-color: #007acc;
-            padding: 10px 20px;
-            border: none;
-            text-decoration: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .download-button:hover {
-            background-color: #005f99;
+        .button-container a:hover {
+            background-color: white;
+            color: black;
         }
 
         @media (max-width: 768px) {
             h1 {
                 font-size: 5rem;
             }
-            .pdf-link {
-                font-size: 1.5rem;
-                padding: 8px 16px;
+            .pdf-preview {
+                width: 90%;
+                height: 40vh;
             }
-            .download-button {
-                font-size: 1.2rem;
+            .button-container a {
+                font-size: 1.5rem;
                 padding: 8px 16px;
             }
         }
@@ -74,14 +73,21 @@
             h1 {
                 font-size: 3rem;
             }
+            .pdf-preview {
+                height: 35vh;
+            }
         }
     </style>
 </head>
 <body>
     <h1>Niklas Peter Portfolio</h1>
-    <div class="pdf-link-container">
-        <a href="dein-portfolio.pdf" class="pdf-link" target="_blank">PDF im Vollbild anzeigen</a>
-        <a href="dein-portfolio.pdf" class="download-button" download>PDF herunterladen</a>
+    <!-- PDF Vorschau -->
+    <iframe src="dein-portfolio.pdf" class="pdf-preview" type="application/pdf"></iframe>
+
+    <!-- Button Container -->
+    <div class="button-container">
+        <a href="dein-portfolio.pdf" target="_blank">PDF im Vollbild anzeigen</a>
+        <a href="dein-portfolio.pdf" download>PDF herunterladen</a>
     </div>
 </body>
 </html>
