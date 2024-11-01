@@ -79,6 +79,7 @@
             padding: 5px 10px; /* Kleines Padding */
             cursor: pointer; /* Zeiger als Cursor */
             margin-top: 20px; /* Abstand zum vorherigen Element */
+            text-align: center; /* Zentrales Text-Layout */
         }
 
         footer .impressum-content {
@@ -88,8 +89,11 @@
             margin-top: 10px;
             border-radius: 5px; /* Abgerundete Ecken */
             color: white;
-            text-align: center; /* Mittige Ausrichtung des Impressums */
+            text-align: justify; /* Blocksatz */
             font-size: 0.7rem; /* Minimale Schriftgröße für das Impressum */
+            max-width: 90%; /* Maximalbreite für den Impressum-Block */
+            margin-left: auto; /* Zentriert auf der linken Seite */
+            margin-right: auto; /* Zentriert auf der rechten Seite */
         }
 
         @media (max-width: 768px) {
@@ -191,8 +195,15 @@
         // Impressum anzeigen oder ausblenden
         function toggleImpressum() {
             const impressumContent = document.getElementById('impressum-content');
-            impressumContent.style.display = impressumContent.style.display === 'none' || impressumContent.style.display === '' ? 'block' : 'none';
+            if (impressumContent.style.display === 'none' || impressumContent.style.display === '') {
+                impressumContent.style.display = 'block';
+            } else {
+                impressumContent.style.display = 'none';
+            }
         }
+
+        // Initial verstecken
+        document.getElementById('impressum-content').style.display = 'none'; // Impressum standardmäßig ausblenden
     </script>
 </body>
 </html>
