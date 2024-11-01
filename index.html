@@ -78,8 +78,9 @@
             font-size: 0.8rem; /* Kleinere Schriftgröße für den Impressum-Button */
             padding: 5px 10px; /* Kleines Padding */
             cursor: pointer; /* Zeiger als Cursor */
-            margin-top: 30px; /* Mehr Abstand zum vorherigen Element */
+            margin-top: 40px; /* Mehr Abstand zum vorherigen Element */
             text-align: center; /* Zentrales Text-Layout */
+            display: inline-block; /* Inline-Block für korrekte Zentrierung */
         }
 
         footer .impressum-content {
@@ -186,13 +187,11 @@
 
         const canvasElement = document.getElementById('pdf-canvas');
         canvasElement.addEventListener('click', function() {
-            currentPage = (currentPage % totalPages) + 1; // Seite wechseln
-            pdfjsLib.getDocument(url).promise.then(pdf => {
-                renderPage(pdf, currentPage);
-            });
+            currentPage = (currentPage % totalPages) + 1; // Nächste Seite laden
+            renderPage(pdf, currentPage);
         });
 
-        // Impressum anzeigen oder ausblenden
+        // Impressum ein-/ausblenden
         function toggleImpressum() {
             const impressumContent = document.getElementById('impressum-content');
             if (impressumContent.style.display === 'none' || impressumContent.style.display === '') {
