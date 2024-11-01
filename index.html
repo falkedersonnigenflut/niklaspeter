@@ -47,6 +47,7 @@
             justify-content: center; /* Buttons zentrieren */
             margin-top: 20px; /* Abstand zwischen Buttons und PDF-Vorschau */
             gap: 20px; /* Abstand zwischen den Buttons */
+            flex-wrap: wrap; /* Zeilenumbruch der Buttons */
         }
         .button-container a, .button-container button {
             color: white; /* Weiße Schriftfarbe */
@@ -84,7 +85,7 @@
             cursor: pointer; /* Zeiger als Cursor */
             margin-top: 10px; /* Abstand zu den anderen Buttons */
             text-align: center; /* Zentrales Text-Layout */
-            display: block; /* Block für korrekte Zentrierung */
+            display: inline-block; /* Inline-Block für korrekte Zentrierung */
             transition: font-weight 0.3s ease; /* Sanfter Übergang für die Schriftstärke */
         }
 
