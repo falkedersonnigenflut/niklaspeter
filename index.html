@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Niklas Peter Portfolio</title>
-    <link rel="icon" type="image/png" href="241101_Favicon.png">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script> <!-- PDF.js Script -->
+    <link rel="icon" type="image/png" href="241101_Favicon.png"> <!-- Favicon -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.5.141/pdf.min.js"></script> <!-- Neueste Version von PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.5.141/pdf.worker.min.js"></script> <!-- Neueste Version von PDF.js Worker -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap'); /* Roboto Mono Schriftart */
         
@@ -87,17 +88,17 @@
 
     <!-- Button Container -->
     <div class="button-container">
-        <a href="dein-portfolio.pdf" target="_blank">Fullscreen</a>
-        <a href="dein-portfolio.pdf" download>Download</a>
+        <a href="Portfolio_Peter_24.pdf" target="_blank">Fullscreen</a>
+        <a href="Portfolio_Peter_24.pdf" download>Download</a>
         <a href="mailto:hello@niklaspeter.de">Contact</a>
     </div>
 
     <script>
         // PDF.js Initialisierung
-        const url = 'dein-portfolio.pdf'; // URL zur PDF-Datei
+        const url = 'Portfolio_Peter_24.pdf'; // URL zur neuen PDF-Datei
         const pdfjsLib = window['pdfjs-dist/build/pdf'];
 
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.5.141/pdf.worker.min.js';
 
         // PDF laden
         pdfjsLib.getDocument(url).promise.then(pdf => {
@@ -112,7 +113,9 @@
 
                 const renderContext = {
                     canvasContext: context,
-                    viewport: viewport
+                    viewport: viewport,
+                    intent: 'print', // Farbkorrektur für Druckmodus
+                    useCSS: true // CSS-basierte Farbwiedergabe
                 };
                 page.render(renderContext);
             });
@@ -134,7 +137,9 @@
 
                     const renderContext = {
                         canvasContext: canvasElement.getContext('2d'),
-                        viewport: viewport
+                        viewport: viewport,
+                        intent: 'print', // Farbkorrektur für Druckmodus
+                        useCSS: true // CSS-basierte Farbwiedergabe
                     };
                     page.render(renderContext);
                 });
