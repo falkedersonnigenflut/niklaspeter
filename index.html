@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Niklas Peter Portfolio</title>
-    <meta name="description" content="Niklas Peter Architektur Portfolio"> <!-- Aktualisierte Beschreibung -->
+    <meta name="description" content="Niklas Peter Architektur Portfolio">
     <link rel="icon" type="image/png" href="241101_Favicon.png"> <!-- Favicon -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.5.141/pdf.min.js"></script> <!-- Neueste Version von PDF.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.5.141/pdf.worker.min.js"></script> <!-- Neueste Version von PDF.js Worker -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.5.141/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.5.141/pdf.worker.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap'); /* Roboto Mono Schriftart */
         
@@ -23,18 +23,18 @@
             min-height: 100vh;
         }
         h1 {
-            font-size: clamp(2rem, 8vw, 6rem); /* Dynamische Schriftgröße */
+            font-size: clamp(2rem, 8vw, 5rem); /* Dynamische Schriftgröße */
             font-weight: bold;
             margin: 0;
             text-align: center;
             width: 100%;
-            white-space: nowrap; /* Verhindert das Umbrechen der Überschrift */
+            max-width: 90%; /* Maximalbreite für den Titel */
+            white-space: normal; /* Text umbrechen */
             overflow: hidden;
             text-overflow: ellipsis; /* Ellipsen bei übergroßen Titeln */
         }
         .pdf-preview {
             width: 80%;
-            height: auto; /* Höhe wird automatisch basierend auf der Breite angepasst */
             max-height: 80vh; /* Maximalhöhe, um das Layout zu erhalten */
             margin-top: 20px;
             box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
@@ -46,7 +46,7 @@
             margin-top: 20px; /* Abstand zwischen Buttons und PDF-Vorschau */
             gap: 20px; /* Abstand zwischen den Buttons */
         }
-        .button-container a {
+        .button-container a, .button-container button {
             color: white;
             font-size: 1.2rem; /* Kleinere Schriftgröße für die Buttons */
             text-decoration: none;
@@ -55,8 +55,9 @@
             text-align: center;
             display: inline-block;
             border: none; /* Keine Umrandung */
+            cursor: pointer;
         }
-        .button-container a:hover {
+        .button-container a:hover, .button-container button:hover {
             background-color: white;
             color: black;
         }
@@ -77,6 +78,7 @@
             font-size: 0.8rem; /* Kleinere Schriftgröße für den Impressum-Button */
             padding: 5px 10px; /* Kleines Padding */
             cursor: pointer; /* Zeiger als Cursor */
+            margin-top: 20px; /* Abstand zum vorherigen Element */
         }
 
         footer .impressum-content {
@@ -86,14 +88,14 @@
             margin-top: 10px;
             border-radius: 5px; /* Abgerundete Ecken */
             color: white;
+            text-align: center; /* Mittige Ausrichtung des Impressums */
         }
 
         @media (max-width: 768px) {
             .pdf-preview {
                 width: 90%;
-                height: auto;
             }
-            .button-container a {
+            .button-container a, .button-container button {
                 font-size: 1rem; /* Angepasste Schriftgröße für Buttons auf Tablets */
             }
         }
@@ -109,8 +111,11 @@
     <div class="button-container">
         <a href="Portfolio_Peter_24.pdf" target="_blank">Fullscreen</a>
         <a href="Portfolio_Peter_24.pdf" download>Download</a>
-        <button class="impressum-button" onclick="toggleImpressum()">Impressum</button>
+        <a href="mailto:hello@niklaspeter.de">Contact</a> <!-- Kontakt Button hinzugefügt -->
     </div>
+
+    <!-- Impressum-Button -->
+    <button class="impressum-button" onclick="toggleImpressum()">Impressum</button>
 
     <!-- Impressum-Inhalt -->
     <div class="impressum-content" id="impressum-content">
@@ -147,8 +152,13 @@
         // PDF laden
         pdfjsLib.getDocument(url).promise.then(pdf => {
             // Erste Seite rendern
-            pdf.getPage(1).then(page => {
-                const scale = 1.5; // Anpassung der Skalierung
+            renderPage(pdf, 1);
+        });
+
+        // Seite rendern
+        function renderPage(pdf, pageNum) {
+            pdf.getPage(pageNum).then(page => {
+                const scale = 2.0; // Höhere Skalierung für bessere Qualität
                 const viewport = page.getViewport({ scale: scale });
                 const canvas = document.getElementById('pdf-canvas');
                 const context = canvas.getContext('2d');
@@ -163,7 +173,7 @@
                 };
                 page.render(renderContext);
             });
-        });
+        }
 
         // Vorschau durchklickbar machen
         let currentPage = 1; // Aktuelle Seite
@@ -173,24 +183,11 @@
         canvasElement.addEventListener('click', function() {
             currentPage = (currentPage % totalPages) + 1; // Seite wechseln
             pdfjsLib.getDocument(url).promise.then(pdf => {
-                pdf.getPage(currentPage).then(page => {
-                    const scale = 1.5; // Anpassung der Skalierung
-                    const viewport = page.getViewport({ scale: scale });
-                    canvasElement.width = viewport.width;
-                    canvasElement.height = viewport.height;
-
-                    const renderContext = {
-                        canvasContext: canvasElement.getContext('2d'),
-                        viewport: viewport,
-                        intent: 'print', // Farbkorrektur für Druckmodus
-                        useCSS: true // CSS-basierte Farbwiedergabe
-                    };
-                    page.render(renderContext);
-                });
+                renderPage(pdf, currentPage);
             });
         });
 
-        // Funktion um das Impressum anzuzeigen oder zu verbergen
+        // Impressum anzeigen oder ausblenden
         function toggleImpressum() {
             const impressumContent = document.getElementById('impressum-content');
             impressumContent.style.display = impressumContent.style.display === 'none' || impressumContent.style.display === '' ? 'block' : 'none';
