@@ -155,15 +155,19 @@
 
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.5.141/pdf.worker.min.js';
 
+        let pdfDoc = null; // Dokumentinitialisierung
+        let currentPage = 1; // Aktuelle Seite
+        const totalPages = 25; // Gesamtseiten auf 25 gesetzt
+
         // PDF laden
         pdfjsLib.getDocument(url).promise.then(pdf => {
-            // Erste Seite rendern
-            renderPage(pdf, 1);
+            pdfDoc = pdf;
+            renderPage(currentPage);
         });
 
         // Seite rendern
-        function renderPage(pdf, pageNum) {
-            pdf.getPage(pageNum).then(page => {
+        function renderPage(pageNum) {
+            pdfDoc.getPage(pageNum).then(page => {
                 const scale = 2.0; // Höhere Skalierung für bessere Qualität
                 const viewport = page.getViewport({ scale: scale });
                 const canvas = document.getElementById('pdf-canvas');
@@ -174,21 +178,16 @@
                 const renderContext = {
                     canvasContext: context,
                     viewport: viewport,
-                    intent: 'print', // Farbkorrektur für Druckmodus
-                    useCSS: true // CSS-basierte Farbwiedergabe
+                    intent: 'print' // Farbkorrektur für Druckmodus
                 };
                 page.render(renderContext);
             });
         }
 
         // Vorschau durchklickbar machen
-        let currentPage = 1; // Aktuelle Seite
-        const totalPages = 25; // Gesamtseiten auf 25 gesetzt
-
-        const canvasElement = document.getElementById('pdf-canvas');
-        canvasElement.addEventListener('click', function() {
+        document.getElementById('pdf-canvas').addEventListener('click', function() {
             currentPage = (currentPage % totalPages) + 1; // Nächste Seite laden
-            renderPage(pdf, currentPage);
+            renderPage(currentPage);
         });
 
         // Impressum ein-/ausblenden
