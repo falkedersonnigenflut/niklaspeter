@@ -78,7 +78,7 @@
             font-size: 0.8rem; /* Kleinere Schriftgröße für den Impressum-Button */
             padding: 5px 10px; /* Kleines Padding */
             cursor: pointer; /* Zeiger als Cursor */
-            margin-top: 20px; /* Abstand zum vorherigen Element */
+            margin-top: 30px; /* Mehr Abstand zum vorherigen Element */
             text-align: center; /* Zentrales Text-Layout */
         }
 
@@ -194,16 +194,4 @@
 
         // Impressum anzeigen oder ausblenden
         function toggleImpressum() {
-            const impressumContent = document.getElementById('impressum-content');
-            if (impressumContent.style.display === 'none' || impressumContent.style.display === '') {
-                impressumContent.style.display = 'block';
-            } else {
-                impressumContent.style.display = 'none';
-            }
-        }
-
-        // Initial verstecken
-        document.getElementById('impressum-content').style.display = 'none'; // Impressum standardmäßig ausblenden
-    </script>
-</body>
-</html>
+            const impressumContent = document
