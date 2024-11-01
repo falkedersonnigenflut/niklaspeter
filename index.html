@@ -22,11 +22,14 @@
             min-height: 100vh;
         }
         h1 {
-            font-size: 6rem; /* Titel Schriftgröße */
+            font-size: clamp(2rem, 8vw, 6rem); /* Dynamische Schriftgröße mit minimal und maximaler Größe */
             font-weight: bold;
             margin: 0;
             text-align: center;
-            width: 100%; /* Überschrift über die gesamte Breite */
+            width: 100%;
+            white-space: nowrap; /* Verhindert das Umbrechen der Überschrift in mehrere Zeilen */
+            overflow: hidden;
+            text-overflow: ellipsis; /* Ellipsen bei übergroßen Titeln für kleine Bildschirme */
         }
         .pdf-preview {
             width: 80%;
@@ -57,25 +60,22 @@
             color: black;
         }
 
+        /* Impressums-Link */
+        footer {
+            margin-top: auto;
+            padding: 20px;
+            font-size: 0.9rem;
+            text-align: center;
+            font-family: 'Roboto Mono', monospace; /* Roboto Mono Schriftart für Impressum */
+        }
+
         @media (max-width: 768px) {
-            h1 {
-                font-size: 4rem; /* Angepasste Schriftgröße für Tablets */
-            }
             .pdf-preview {
                 width: 90%;
                 height: auto;
             }
             .button-container a {
                 font-size: 1rem; /* Angepasste Schriftgröße für Buttons auf Tablets */
-            }
-        }
-        
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 3rem; /* Schriftgröße für Smartphones */
-            }
-            .pdf-preview {
-                height: auto;
             }
         }
     </style>
@@ -146,5 +146,10 @@
             });
         });
     </script>
+
+    <!-- Impressum im Footer -->
+    <footer>
+        <a href="mailto:hello@niklaspeter.de">Impressum</a>
+    </footer>
 </body>
 </html>
