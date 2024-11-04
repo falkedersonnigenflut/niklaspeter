@@ -58,26 +58,13 @@
             display: inline-block;
             border: none; /* Keine Umrandung */
             cursor: pointer;
-            background-color: transparent; /* Hintergrund transparent */
-            transition: font-weight 0.3s; /* Übergang für Fettschrift beim Hover */
+            transition: font-weight 0.3s; /* Übergang für Schriftgewicht */
         }
         .button-container a:hover, .button-container button:hover {
-            font-weight: bold; /* Schrift fett beim Hover */
+            font-weight: bold; /* Schrift fett bei Hover */
         }
 
         /* Impressum-Button */
-        .impressum-button {
-            color: white; /* Impressum in Weiß */
-            font-size: 1.2rem; /* Gleiche Schriftgröße wie andere Buttons */
-            padding: 10px 20px; /* Gleiches Padding wie andere Buttons */
-            text-align: center; /* Zentrales Text-Layout */
-            margin: 10px; /* Gleicher Abstand wie andere Buttons */
-            border: none; /* Keine Umrandung */
-            background-color: transparent; /* Hintergrund transparent */
-            cursor: pointer; /* Zeiger als Cursor */
-            font-family: 'Roboto Mono', monospace; /* Roboto Mono Schriftart für den Impressum-Button */
-        }
-
         footer {
             margin-top: auto;
             padding: 20px;
@@ -86,16 +73,27 @@
             font-family: 'Roboto Mono', monospace; /* Roboto Mono Schriftart für Impressum */
         }
 
-        /* Impressum-Inhalt */
-        .impressum-content {
+        footer .imprint-button {
+            color: white; /* Impressum in Weiß */
+            background-color: transparent; /* Hintergrund transparent */
+            border: none; /* Keine Umrandung */
+            font-size: 1.2rem; /* Gleiche Schriftgröße wie andere Buttons */
+            padding: 10px 20px; /* Padding anpassen */
+            cursor: pointer; /* Zeiger als Cursor */
+            text-align: center; /* Zentrales Text-Layout */
+            display: inline-block; /* Inline-Block für korrekte Zentrierung */
+            transition: font-weight 0.3s; /* Übergang für Schriftgewicht */
+        }
+        footer .imprint-button:hover {
+            font-weight: bold; /* Fett bei Hover */
+        }
+
+        footer .imprint-content {
             display: none; /* Impressum-Inhalt verstecken */
-            background-color: black; /* Hintergrund schwarz */
-            padding: 10px;
-            margin-top: 10px;
-            border-radius: 5px; /* Abgerundete Ecken */
-            color: white;
+            background-color: transparent; /* Kein Hintergrund */
+            color: white; /* Textfarbe */
             text-align: justify; /* Blocksatz */
-            font-size: 0.8rem; /* Minimale Schriftgröße für das Impressum */
+            font-size: 0.9rem; /* Schriftgröße für Impressum */
             max-width: 90%; /* Maximalbreite für den Impressum-Block */
             margin-left: auto; /* Zentriert auf der linken Seite */
             margin-right: auto; /* Zentriert auf der rechten Seite */
@@ -121,13 +119,13 @@
     <div class="button-container">
         <a href="Portfolio_Peter_24.pdf" target="_blank">Fullscreen</a>
         <a href="Portfolio_Peter_24.pdf" download>Download</a>
-        <a href="mailto:hello@niklaspeter.de">Contact</a> <!-- Kontakt Button hinzugefügt -->
-        <button class="impressum-button" onclick="toggleImpressum()">Imprint & Privacy Policy</button>
+        <a href="mailto:hello@niklaspeter.de">Contact</a>
+        <button class="imprint-button" onclick="toggleImpressum()">Imprint & Privacy Policy</button> <!-- Impressum-Button -->
     </div>
 
     <!-- Impressum-Inhalt -->
-    <div class="impressum-content" id="impressum-content">
-        <h2>Imprint</h2>
+    <div class="imprint-content" id="impressum-content">
+        <h2>Imprint & Privacy Policy</h2>
         <p><strong>Angaben gemäß § 5 TMG:</strong></p>
         <p>Niklas Peter<br>
         Hofgartenstraße 11<br>
@@ -136,16 +134,16 @@
 
         <p><strong>Kontakt:</strong></p>
         <p>Telefon: +49 160 94417151<br>
-        E-Mail: <a href="mailto:hello@niklaspeter.de" style="color: white;">hello@niklaspeter.de</a></p>
+        E-Mail: <a href="mailto:hello@niklaspeter.de" style="color: white; text-decoration: none;">hello@niklaspeter.de</a></p>
 
-        <p><strong>Person verantwortlich für den Inhalt:</strong></p>
+        <p><strong>Inhaltlich verantwortlich gemäß § 55 Abs. 2 RStV:</strong></p>
         <p>Niklas Peter</p>
 
         <p><strong>Haftungsausschluss:</strong></p>
-        <p>Die Inhalte dieser Website wurden mit größtmöglicher Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte kann jedoch keine Gewähr übernommen werden.</p>
+        <p>Die Inhalte dieser Website wurden mit größtmöglicher Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte kann jedoch keine Gewähr übernommen werden. Als Dienstanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Dienstanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.</p>
 
         <p><strong>Urheberrecht:</strong></p>
-        <p>Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht.</p>
+        <p>Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechts bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.</p>
         
         <p>© 2024 Niklas Peter. Alle Rechte vorbehalten.</p>
     </div>
@@ -194,12 +192,8 @@
 
         // Impressum ein-/ausblenden
         function toggleImpressum() {
-            const impressumContent = document.getElementById('impressum-content');
-            if (impressumContent.style.display === 'none' || impressumContent.style.display === '') {
-                impressumContent.style.display = 'block'; // Sichtbar machen
-            } else {
-                impressumContent.style.display = 'none'; // Verstecken
-            }
+            const content = document.getElementById('impressum-content');
+            content.style.display = content.style.display === 'block' ? 'none' : 'block'; // Sichtbarkeit umschalten
         }
     </script>
 </body>
