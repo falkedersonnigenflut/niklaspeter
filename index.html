@@ -94,16 +94,17 @@
 
         @media (max-width: 768px) {
             #pdf-canvas {
-                width: 90%;
+                width: 90%; /* Breite der PDF-Anzeige anpassen */
             }
             .button-container {
                 flex-direction: column; /* Buttons untereinander anordnen */
                 align-items: center; /* Buttons zentrieren */
+                gap: 10px; /* Abstand zwischen den Buttons */
+                width: 100%; /* Container-Breite auf 100% setzen */
             }
             .button-container a, .button-container button {
-                width: 100%; /* Buttons die volle Breite nutzen */
+                width: 80%; /* Buttons auf 80% der Container-Breite setzen */
                 font-size: 1rem; /* Angepasste Schriftgröße für Buttons auf Tablets */
-                margin-bottom: 10px; /* Abstand zwischen den Buttons */
             }
         }
 
@@ -165,7 +166,7 @@
             <li><a href="https://www.squarespace.com/privacy" style="color: white; text-decoration: none;">Squarespace Privacy Policy</a></li>
             <li><a href="https://docs.github.com/en/github/site-policy/github-privacy-statement" style="color: white; text-decoration: none;">GitHub Privacy Policy</a></li>
         </ul>
-        
+
         <p><strong>3. Cookies and Analytics:</strong><br>
         We do not actively set cookies or track user data on this website. However, our hosting providers may collect technical data as described in their privacy policies.</p>
 
