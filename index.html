@@ -47,6 +47,7 @@
             justify-content: center; /* Buttons zentrieren */
             margin-top: 20px; /* Abstand zwischen Buttons und PDF-Vorschau */
             gap: 20px; /* Abstand zwischen den Buttons */
+            flex-wrap: wrap; /* Zeilenumbruch aktivieren */
         }
         .button-container a, .button-container button {
             color: white;
@@ -94,7 +95,7 @@
             background-color: transparent; /* Kein Hintergrund */
             color: white; /* Textfarbe */
             text-align: justify; /* Blocksatz */
-            font-size: 0.9rem; /* Schriftgröße für Impressum */
+            font-size: 0.8rem; /* Schriftgröße für Impressum verkleinert */
             max-width: 90%; /* Maximalbreite für den Impressum-Block */
             margin-left: auto; /* Zentriert auf der linken Seite */
             margin-right: auto; /* Zentriert auf der rechten Seite */
@@ -104,8 +105,20 @@
             .pdf-preview {
                 width: 90%;
             }
+            .button-container {
+                flex-direction: column; /* Buttons untereinander anordnen */
+                align-items: center; /* Buttons zentrieren */
+            }
             .button-container a, .button-container button {
+                width: 100%; /* Buttons die volle Breite nutzen */
                 font-size: 1rem; /* Angepasste Schriftgröße für Buttons auf Tablets */
+                margin-bottom: 10px; /* Abstand zwischen den Buttons */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .button-container a, .button-container button {
+                font-size: 0.9rem; /* Kleinere Schriftgröße für sehr kleine Bildschirme */
             }
         }
     </style>
@@ -173,11 +186,7 @@
     </div>
 
     <script>
-        // PDF.js Initialisierung
-        const url = 'Portfolio_Peter_24.pdf'; // URL zur neuen PDF-Datei
-        const pdfjsLib = window['pdfjs-dist/build/pdf'];
-
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.5.141/pdf.worker.min.js';
+        const url = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.5.141/pdf.worker.min.js';
 
         let pdfDoc = null; // Dokumentinitialisierung
         let currentPage = 1; // Aktuelle Seite
