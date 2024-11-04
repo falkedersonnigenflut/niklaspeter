@@ -122,12 +122,12 @@
         <a href="Portfolio_Peter_24.pdf" target="_blank">Fullscreen</a>
         <a href="Portfolio_Peter_24.pdf" download>Download</a>
         <a href="mailto:hello@niklaspeter.de">Contact</a> <!-- Kontakt Button hinzugefügt -->
-        <button class="impressum-button" onclick="toggleImpressum()">Imprint & Privacy Policy</button> <!-- Impressum-Button -->
+        <button class="impressum-button" onclick="toggleImpressum()">Imprint & Privacy Policy</button>
     </div>
 
     <!-- Impressum-Inhalt -->
     <div class="impressum-content" id="impressum-content">
-        <h2>Impressum</h2>
+        <h2>Imprint</h2>
         <p><strong>Angaben gemäß § 5 TMG:</strong></p>
         <p>Niklas Peter<br>
         Hofgartenstraße 11<br>
@@ -138,14 +138,14 @@
         <p>Telefon: +49 160 94417151<br>
         E-Mail: <a href="mailto:hello@niklaspeter.de" style="color: white;">hello@niklaspeter.de</a></p>
 
-        <p><strong>Inhaltlich verantwortlich gemäß § 55 Abs. 2 RStV:</strong></p>
+        <p><strong>Person verantwortlich für den Inhalt:</strong></p>
         <p>Niklas Peter</p>
 
         <p><strong>Haftungsausschluss:</strong></p>
-        <p>Die Inhalte dieser Website wurden mit größtmöglicher Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte kann jedoch keine Gewähr übernommen werden. Als Dienstanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Dienstanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.</p>
+        <p>Die Inhalte dieser Website wurden mit größtmöglicher Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte kann jedoch keine Gewähr übernommen werden.</p>
 
         <p><strong>Urheberrecht:</strong></p>
-        <p>Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechts bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.</p>
+        <p>Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht.</p>
         
         <p>© 2024 Niklas Peter. Alle Rechte vorbehalten.</p>
     </div>
@@ -192,13 +192,13 @@
             renderPage(currentPage);
         });
 
-        // Impressum ein- und ausblenden
+        // Impressum ein-/ausblenden
         function toggleImpressum() {
-            const content = document.getElementById('impressum-content');
-            if (content.style.display === 'none' || content.style.display === '') {
-                content.style.display = 'block'; // Sichtbar machen
+            const impressumContent = document.getElementById('impressum-content');
+            if (impressumContent.style.display === 'none' || impressumContent.style.display === '') {
+                impressumContent.style.display = 'block'; // Sichtbar machen
             } else {
-                content.style.display = 'none'; // Verstecken
+                impressumContent.style.display = 'none'; // Verstecken
             }
         }
     </script>
