@@ -30,13 +30,11 @@
             width: 100%;
             max-width: 90%;
         }
-        .pdf-preview {
+        #pdf-canvas {
             width: 80%;
             max-height: 80vh; /* Maximalhöhe */
             margin-top: 20px;
             cursor: pointer;
-            border: none;
-            background-color: transparent; /* Hintergrund transparent */
         }
         .button-container {
             display: flex;
@@ -95,7 +93,7 @@
         }
 
         @media (max-width: 768px) {
-            .pdf-preview {
+            #pdf-canvas {
                 width: 90%;
             }
             .button-container {
@@ -120,7 +118,7 @@
     <h1>Niklas Peter Portfolio</h1>
 
     <!-- PDF-Vorschau -->
-    <canvas id="pdf-canvas" class="pdf-preview"></canvas>
+    <canvas id="pdf-canvas"></canvas>
 
     <!-- Button Container -->
     <div class="button-container">
