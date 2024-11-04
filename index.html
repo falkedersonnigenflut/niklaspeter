@@ -9,8 +9,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.5.141/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.5.141/pdf.worker.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap'); /* Roboto Mono Schriftart */
-        
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+
         body {
             margin: 0;
             padding: 0;
@@ -28,18 +28,14 @@
             margin: 0;
             text-align: center;
             width: 100%;
-            max-width: 90%; /* Maximalbreite für den Titel */
-            white-space: normal; /* Text umbrechen */
-            overflow: hidden;
-            text-overflow: ellipsis; /* Ellipsen bei übergroßen Titeln */
+            max-width: 90%;
         }
         .pdf-preview {
             width: 80%;
-            max-height: 80vh; /* Maximalhöhe, um das Layout zu erhalten */
+            max-height: 80vh; /* Maximalhöhe */
             margin-top: 20px;
             cursor: pointer;
-            border: none; /* Keine Umrandung */
-            box-shadow: none; /* Keine Schatten */
+            border: none;
             background-color: transparent; /* Hintergrund transparent */
         }
         .button-container {
@@ -55,7 +51,6 @@
             text-decoration: none;
             padding: 10px 20px;
             font-family: 'Roboto Mono', monospace; /* Roboto Mono Schriftart für Buttons */
-            text-align: center;
             display: inline-block;
             border: none; /* Keine Umrandung */
             cursor: pointer;
@@ -82,8 +77,6 @@
             font-size: 1.2rem; /* Gleiche Schriftgröße wie andere Buttons */
             padding: 10px 20px; /* Padding anpassen */
             cursor: pointer; /* Zeiger als Cursor */
-            text-align: center; /* Zentrales Text-Layout */
-            display: inline-block; /* Inline-Block für korrekte Zentrierung */
             transition: font-weight 0.3s; /* Übergang für Schriftgewicht */
         }
         footer .imprint-button:hover {
@@ -134,7 +127,7 @@
         <a href="Portfolio_Peter_24.pdf" target="_blank">Fullscreen</a>
         <a href="Portfolio_Peter_24.pdf" download>Download</a>
         <a href="mailto:hello@niklaspeter.de">Contact</a>
-        <button class="imprint-button" onclick="toggleImpressum()">Imprint & Privacy Policy</button> <!-- Impressum-Button -->
+        <button class="imprint-button" onclick="toggleImpressum()">Imprint & Privacy Policy</button>
     </div>
 
     <!-- Impressum-Inhalt -->
@@ -186,13 +179,11 @@
     </div>
 
     <script>
-        const url = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.5.141/pdf.worker.min.js';
-        
         let pdfDoc = null; // Dokumentinitialisierung
         let currentPage = 1; // Aktuelle Seite
-        const totalPages = 25; // Gesamtseiten auf 25 gesetzt
 
         // PDF laden
+        const url = 'Portfolio_Peter_24.pdf'; // Hier die URL der PDF-Datei angeben
         pdfjsLib.getDocument(url).promise.then(pdf => {
             pdfDoc = pdf;
             renderPage(currentPage);
@@ -219,7 +210,7 @@
 
         // Vorschau durchklickbar machen
         document.getElementById('pdf-canvas').addEventListener('click', function() {
-            currentPage = (currentPage % totalPages) + 1; // Nächste Seite laden
+            currentPage = (currentPage % pdfDoc.numPages) + 1; // Nächste Seite laden
             renderPage(currentPage);
         });
 
