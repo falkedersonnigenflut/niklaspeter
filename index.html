@@ -232,6 +232,11 @@
                 content.style.display = 'none'; // Ausblenden
             }
         }
+
+        // Initialer Zustand für Impressum-Inhalt
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById('impressum-content').style.display = 'none'; // Beim Laden ausblenden
+        });
     </script>
 </body>
 </html>
