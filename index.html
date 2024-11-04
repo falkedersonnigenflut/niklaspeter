@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Niklas Peter Portfolio</title>
     <meta name="description" content="Niklas Peter Architektur Portfolio">
-    <link rel="icon" type="image/png" href="241101_Favicon.png"> <!-- Favicon -->
+    <link rel="icon" type="image/png" href="241101_Favicon.png">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.5.141/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.5.141/pdf.worker.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap'); /* Roboto Mono Schriftart */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
         
         body {
             margin: 0;
@@ -19,11 +19,11 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            font-family: 'Roboto Mono', monospace; /* Roboto Mono Schriftart */
+            font-family: 'Roboto Mono', monospace;
             min-height: 100vh;
         }
         h1 {
-            font-size: clamp(2rem, 8vw, 5rem); /* Dynamische Schriftgröße */
+            font-size: clamp(2rem, 8vw, 5rem);
             font-weight: bold;
             margin: 0;
             text-align: center;
@@ -39,7 +39,6 @@
             margin-top: 20px;
             cursor: pointer;
             border: none;
-            box-shadow: none;
             background-color: transparent;
         }
         .button-container {
@@ -47,6 +46,7 @@
             justify-content: center;
             gap: 20px;
             margin-top: 20px;
+            flex-wrap: wrap;
         }
         .button-container a, .button-container button {
             color: white;
@@ -57,6 +57,7 @@
             text-align: center;
             display: inline-block;
             border: none;
+            background: none;
             cursor: pointer;
         }
         .button-container a:hover, .button-container button:hover {
@@ -64,15 +65,7 @@
         }
 
         /* Impressum-Inhalt */
-        footer {
-            margin-top: auto;
-            padding: 20px;
-            font-size: 0.8rem;
-            text-align: center;
-            font-family: 'Roboto Mono', monospace;
-        }
-
-        footer .impressum-content {
+        .impressum-content {
             display: none;
             color: white;
             text-align: justify;
@@ -80,19 +73,23 @@
             max-width: 90%;
             margin-left: auto;
             margin-right: auto;
+            font-family: 'Roboto Mono', monospace;
         }
-
         .impressum-content a {
             color: white;
             text-decoration: none;
         }
 
+        /* Mobiloptimierung */
         @media (max-width: 768px) {
             .pdf-preview {
                 width: 90%;
             }
             .button-container a, .button-container button {
                 font-size: 1rem;
+            }
+            h1 {
+                font-size: 1.5rem;
             }
         }
     </style>
@@ -107,42 +104,38 @@
     <div class="button-container">
         <a href="Portfolio_Peter_24.pdf" target="_blank">Fullscreen</a>
         <a href="Portfolio_Peter_24.pdf" download>Download</a>
-        <a href="mailto:hello@niklaspeter.de">Contact</a> 
+        <a href="mailto:hello@niklaspeter.de">Contact</a>
         <button onclick="toggleImpressum()">Impressum</button>
     </div>
 
     <!-- Impressum-Inhalt -->
-    <footer>
-        <div class="impressum-content" id="impressum-content">
-            <h2>Impressum</h2>
-            <p><strong>Angaben gemäß § 5 TMG:</strong></p>
-            <p>Niklas Peter<br>
-            Hofgartenstraße 11<br>
-            63579 Freigericht<br>
-            Deutschland</p>
+    <div class="impressum-content" id="impressum-content">
+        <h2>Impressum</h2>
+        <p><strong>Angaben gemäß § 5 TMG:</strong></p>
+        <p>Niklas Peter<br>
+        Hofgartenstraße 11<br>
+        63579 Freigericht<br>
+        Deutschland</p>
 
-            <p><strong>Kontakt:</strong></p>
-            <p>Telefon: +49 160 94417151<br>
-            E-Mail: <a href="mailto:hello@niklaspeter.de">hello@niklaspeter.de</a></p>
+        <p><strong>Kontakt:</strong></p>
+        <p>Telefon: +49 160 94417151<br>
+        E-Mail: <a href="mailto:hello@niklaspeter.de">hello@niklaspeter.de</a></p>
 
-            <p><strong>Inhaltlich verantwortlich gemäß § 55 Abs. 2 RStV:</strong></p>
-            <p>Niklas Peter</p>
+        <p><strong>Inhaltlich verantwortlich gemäß § 55 Abs. 2 RStV:</strong></p>
+        <p>Niklas Peter</p>
 
-            <p><strong>Haftungsausschluss:</strong></p>
-            <p>Die Inhalte dieser Website wurden mit größtmöglicher Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte kann jedoch keine Gewähr übernommen werden. Als Dienstanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Dienstanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.</p>
+        <p><strong>Haftungsausschluss:</strong></p>
+        <p>Die Inhalte dieser Website wurden mit größtmöglicher Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte kann jedoch keine Gewähr übernommen werden. Als Dienstanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Dienstanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.</p>
 
-            <p><strong>Urheberrecht:</strong></p>
-            <p>Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechts bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.</p>
-            
-            <p>© 2024 Niklas Peter. Alle Rechte vorbehalten.</p>
-        </div>
-    </footer>
+        <p><strong>Urheberrecht:</strong></p>
+        <p>Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechts bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.</p>
+        
+        <p>© 2024 Niklas Peter. Alle Rechte vorbehalten.</p>
+    </div>
 
     <script>
-        // PDF.js Initialisierung
         const url = 'Portfolio_Peter_24.pdf';
         const pdfjsLib = window['pdfjs-dist/build/pdf'];
-
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.5.141/pdf.worker.min.js';
 
         let pdfDoc = null;
