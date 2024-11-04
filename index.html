@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Niklas Peter Portfolio</title>
     <meta name="description" content="Niklas Peter Architektur Portfolio">
-    <link rel="icon" type="image/png" href="241101_Favicon.png">
+    <link rel="icon" type="image/png" href="241101_Favicon.png"> <!-- Favicon -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.5.141/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.5.141/pdf.worker.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
-
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap'); /* Roboto Mono Schriftart */
+        
         body {
             margin: 0;
             padding: 0;
@@ -19,77 +19,86 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            font-family: 'Roboto Mono', monospace;
+            font-family: 'Roboto Mono', monospace; /* Roboto Mono Schriftart */
             min-height: 100vh;
         }
         h1 {
-            font-size: clamp(2rem, 8vw, 5rem);
+            font-size: clamp(2rem, 8vw, 5rem); /* Dynamische Schriftgröße */
             font-weight: bold;
             margin: 0;
             text-align: center;
             width: 100%;
-            max-width: 90%;
-            white-space: normal;
+            max-width: 90%; /* Maximalbreite für den Titel */
+            white-space: normal; /* Text umbrechen */
             overflow: hidden;
-            text-overflow: ellipsis;
+            text-overflow: ellipsis; /* Ellipsen bei übergroßen Titeln */
         }
         .pdf-preview {
             width: 80%;
-            max-height: 80vh;
+            max-height: 80vh; /* Maximalhöhe, um das Layout zu erhalten */
             margin-top: 20px;
             cursor: pointer;
-            border: none;
-            box-shadow: none;
-            background-color: transparent;
+            border: none; /* Keine Umrandung */
+            box-shadow: none; /* Keine Schatten */
+            background-color: transparent; /* Hintergrund transparent */
         }
         .button-container {
             display: flex;
-            justify-content: center;
-            margin-top: 20px;
-            gap: 20px;
+            justify-content: center; /* Buttons zentrieren */
+            margin-top: 20px; /* Abstand zwischen Buttons und PDF-Vorschau */
+            gap: 20px; /* Abstand zwischen den Buttons */
         }
         .button-container a, .button-container button {
             color: white;
-            font-size: 1.2rem;
+            font-size: 1.2rem; /* Schriftgröße für die Buttons */
             text-decoration: none;
             padding: 10px 20px;
-            font-family: 'Roboto Mono', monospace;
+            font-family: 'Roboto Mono', monospace; /* Roboto Mono Schriftart für Buttons */
             text-align: center;
             display: inline-block;
-            border: none;
+            border: none; /* Keine Umrandung */
             cursor: pointer;
-            transition: font-weight 0.2s; /* Für sanften Übergang */
+            background-color: transparent; /* Hintergrund transparent */
+            transition: font-weight 0.3s; /* Übergang für Fettschrift beim Hover */
         }
         .button-container a:hover, .button-container button:hover {
-            font-weight: bold;
+            font-weight: bold; /* Schrift fett beim Hover */
         }
+
+        /* Impressum-Button */
+        .impressum-button {
+            color: white; /* Impressum in Weiß */
+            font-size: 1.2rem; /* Gleiche Schriftgröße wie andere Buttons */
+            padding: 10px 20px; /* Gleiches Padding wie andere Buttons */
+            text-align: center; /* Zentrales Text-Layout */
+            margin: 10px; /* Gleicher Abstand wie andere Buttons */
+            border: none; /* Keine Umrandung */
+            background-color: transparent; /* Hintergrund transparent */
+            cursor: pointer; /* Zeiger als Cursor */
+            font-family: 'Roboto Mono', monospace; /* Roboto Mono Schriftart für den Impressum-Button */
+        }
+
         footer {
             margin-top: auto;
             padding: 20px;
             font-size: 0.9rem;
             text-align: center;
-            font-family: 'Roboto Mono', monospace;
+            font-family: 'Roboto Mono', monospace; /* Roboto Mono Schriftart für Impressum */
         }
 
-        footer .imprint-button {
+        /* Impressum-Inhalt */
+        .impressum-content {
+            display: none; /* Impressum-Inhalt verstecken */
+            background-color: black; /* Hintergrund schwarz */
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px; /* Abgerundete Ecken */
             color: white;
-            background-color: transparent; /* Kein Hintergrund */
-            border: none;
-            font-size: 1.2rem; /* Gleiche Schriftgröße wie andere Buttons */
-            padding: 10px 20px; /* Gleiche Padding wie andere Buttons */
-            cursor: pointer;
-            text-align: center;
-            display: inline-block;
-        }
-
-        footer .imprint-content {
-            display: none;
-            color: white;
-            text-align: justify;
-            font-size: 0.8rem;
-            max-width: 90%;
-            margin-left: auto;
-            margin-right: auto;
+            text-align: justify; /* Blocksatz */
+            font-size: 0.8rem; /* Minimale Schriftgröße für das Impressum */
+            max-width: 90%; /* Maximalbreite für den Impressum-Block */
+            margin-left: auto; /* Zentriert auf der linken Seite */
+            margin-right: auto; /* Zentriert auf der rechten Seite */
         }
 
         @media (max-width: 768px) {
@@ -97,7 +106,7 @@
                 width: 90%;
             }
             .button-container a, .button-container button {
-                font-size: 1rem;
+                font-size: 1rem; /* Angepasste Schriftgröße für Buttons auf Tablets */
             }
         }
     </style>
@@ -112,60 +121,45 @@
     <div class="button-container">
         <a href="Portfolio_Peter_24.pdf" target="_blank">Fullscreen</a>
         <a href="Portfolio_Peter_24.pdf" download>Download</a>
-        <a href="mailto:hello@niklaspeter.de">Contact</a>
-        <button class="imprint-button" onclick="toggleImprint()">Imprint & Privacy Policy</button>
+        <a href="mailto:hello@niklaspeter.de">Contact</a> <!-- Kontakt Button hinzugefügt -->
+        <button class="impressum-button" onclick="toggleImpressum()">Imprint & Privacy Policy</button> <!-- Impressum-Button -->
     </div>
 
-    <!-- Imprint & Privacy Policy Content -->
-    <div class="imprint-content" id="imprint-content">
-        <h2>Imprint & Privacy Policy</h2>
-        <p><strong>Information pursuant to Sect. 5 German Telemedia Act (TMG)</strong></p>
+    <!-- Impressum-Inhalt -->
+    <div class="impressum-content" id="impressum-content">
+        <h2>Impressum</h2>
+        <p><strong>Angaben gemäß § 5 TMG:</strong></p>
         <p>Niklas Peter<br>
         Hofgartenstraße 11<br>
         63579 Freigericht<br>
-        Germany</p>
+        Deutschland</p>
 
-        <p><strong>Contact</strong></p>
-        <p>E-mail: hello@niklaspeter.de<br>
-        Phone: +49 160 94417151</p>
+        <p><strong>Kontakt:</strong></p>
+        <p>Telefon: +49 160 94417151<br>
+        E-Mail: <a href="mailto:hello@niklaspeter.de" style="color: white;">hello@niklaspeter.de</a></p>
 
-        <p><strong>EU Online Dispute Resolution</strong></p>
-        <p>The European Commission provides a platform for online dispute resolution (ODR): <a href="https://ec.europa.eu/consumers/odr/" style="color: white; text-decoration: none;">https://ec.europa.eu/consumers/odr/</a>.  
-        Our e-mail address can be found above in the legal notice.</p>
+        <p><strong>Inhaltlich verantwortlich gemäß § 55 Abs. 2 RStV:</strong></p>
+        <p>Niklas Peter</p>
 
-        <p><strong>Dispute Resolution Proceedings in front of a Consumer Arbitration Board</strong></p>
-        <p>We are not willing or obliged to participate in dispute resolution proceedings in front of a consumer arbitration board.</p>
+        <p><strong>Haftungsausschluss:</strong></p>
+        <p>Die Inhalte dieser Website wurden mit größtmöglicher Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte kann jedoch keine Gewähr übernommen werden. Als Dienstanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Dienstanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.</p>
 
-        <p><strong>Privacy Policy</strong></p>
-        <p>This privacy policy outlines the type, scope, and purpose of personal data processing on this website.</p>
-
-        <p><strong>Responsible Entity</strong></p>
-        <p>Niklas Peter<br>
-        Hofgartenstraße 11<br>
-        63579 Freigericht<br>
-        Germany</p>
-
-        <p><strong>Hosting and Data Processing by Third-Party Providers</strong></p>
-        <p>This website is hosted by Squarespace and GitHub, who collect technical data (such as IP addresses) to maintain site functionality and security. For further information, please refer to their privacy policies:
-        <ul>
-            <li><a href="https://www.squarespace.com/privacy" style="color: white; text-decoration: none;">Squarespace Privacy Policy</a></li>
-            <li><a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" style="color: white; text-decoration: none;">GitHub Privacy Policy</a></li>
-        </ul></p>
-
-        <p><strong>User Rights</strong></p>
-        <p>You have the right to request information about the data stored about you, as well as to request correction, restriction, or deletion of this data under applicable data protection laws.</p>
+        <p><strong>Urheberrecht:</strong></p>
+        <p>Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechts bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.</p>
+        
+        <p>© 2024 Niklas Peter. Alle Rechte vorbehalten.</p>
     </div>
 
     <script>
         // PDF.js Initialisierung
-        const url = 'Portfolio_Peter_24.pdf';
+        const url = 'Portfolio_Peter_24.pdf'; // URL zur neuen PDF-Datei
         const pdfjsLib = window['pdfjs-dist/build/pdf'];
 
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.5.141/pdf.worker.min.js';
 
-        let pdfDoc = null;
-        let currentPage = 1;
-        const totalPages = 25;
+        let pdfDoc = null; // Dokumentinitialisierung
+        let currentPage = 1; // Aktuelle Seite
+        const totalPages = 25; // Gesamtseiten auf 25 gesetzt
 
         // PDF laden
         pdfjsLib.getDocument(url).promise.then(pdf => {
@@ -173,9 +167,10 @@
             renderPage(currentPage);
         });
 
+        // Seite rendern
         function renderPage(pageNum) {
             pdfDoc.getPage(pageNum).then(page => {
-                const scale = 2.0;
+                const scale = 2.0; // Höhere Skalierung für bessere Qualität
                 const viewport = page.getViewport({ scale: scale });
                 const canvas = document.getElementById('pdf-canvas');
                 const context = canvas.getContext('2d');
@@ -185,23 +180,27 @@
                 const renderContext = {
                     canvasContext: context,
                     viewport: viewport,
-                    intent: 'print'
+                    intent: 'print' // Farbkorrektur für Druckmodus
                 };
                 page.render(renderContext);
             });
         }
 
+        // Vorschau durchklickbar machen
         document.getElementById('pdf-canvas').addEventListener('click', function() {
-            currentPage = (currentPage % totalPages) + 1;
+            currentPage = (currentPage % totalPages) + 1; // Nächste Seite laden
             renderPage(currentPage);
         });
 
-        function toggleImprint() {
-            const imprintContent = document.getElementById('imprint-content');
-            imprintContent.style.display = imprintContent.style.display === 'none' || imprintContent.style.display === '' ? 'block' : 'none';
+        // Impressum ein- und ausblenden
+        function toggleImpressum() {
+            const content = document.getElementById('impressum-content');
+            if (content.style.display === 'none' || content.style.display === '') {
+                content.style.display = 'block'; // Sichtbar machen
+            } else {
+                content.style.display = 'none'; // Verstecken
+            }
         }
-
-        document.getElementById('imprint-content').style.display = 'none';
     </script>
 </body>
 </html>
