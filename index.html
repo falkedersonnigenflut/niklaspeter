@@ -118,18 +118,73 @@
 </head>
 <body>
     <h1>Niklas Peter Portfolio</h1>
+
+    <!-- PDF-Vorschau -->
     <canvas id="pdf-canvas"></canvas>
+
+    <!-- Button Container -->
     <div class="button-container">
         <a href="Portfolio_Peter_24.pdf" target="_blank">Fullscreen</a>
         <a href="Portfolio_Peter_24.pdf" download>Download</a>
         <a href="mailto:hello@niklaspeter.de">Contact</a>
         <button class="imprint-button" onclick="toggleImpressum()">Imprint & Privacy Policy</button>
     </div>
+
+    <!-- Impressum-Inhalt -->
     <div class="imprint-content" id="impressum-content">
-        <!-- Impressum-Inhalt -->
+        <!-- Impressum- und Datenschutzhinweise bleiben unverändert -->
     </div>
+
     <script>
-        // JavaScript bleibt unverändert
+        let pdfDoc = null; // Dokumentinitialisierung
+        let currentPage = 1; // Aktuelle Seite
+
+        // PDF laden
+        const url = 'Portfolio_Peter_24.pdf'; // Hier die URL der PDF-Datei angeben
+        pdfjsLib.getDocument(url).promise.then(pdf => {
+            pdfDoc = pdf;
+            renderPage(currentPage);
+        });
+
+        // Seite rendern
+        function renderPage(pageNum) {
+            pdfDoc.getPage(pageNum).then(page => {
+                const scale = 2.0; // Höhere Skalierung für bessere Qualität
+                const viewport = page.getViewport({ scale: scale });
+                const canvas = document.getElementById('pdf-canvas');
+                const context = canvas.getContext('2d');
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+
+                const renderContext = {
+                    canvasContext: context,
+                    viewport: viewport,
+                    intent: 'print' // Farbkorrektur für Druckmodus
+                };
+                page.render(renderContext);
+            });
+        }
+
+        // Vorschau durchklickbar machen
+        document.getElementById('pdf-canvas').addEventListener('click', function() {
+            currentPage = (currentPage % pdfDoc.numPages) + 1; // Nächste Seite laden
+            renderPage(currentPage);
+        });
+
+        // Impressum anzeigen/ausblenden
+        function toggleImpressum() {
+            const content = document.getElementById('impressum-content');
+            if (content.style.display === 'none' || content.style.display === '') {
+                content.style.display = 'block'; // Sichtbar machen
+            } else {
+                content.style.display = 'none'; // Ausblenden
+            }
+        }
+
+        // Initialer Zustand für Impressum-Inhalt
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById('impressum-content').style.display = 'none'; // Beim Laden ausblenden
+        });
     </script>
 </body>
 </html>
