@@ -9,7 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.5.141/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.5.141/pdf.worker.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
 
         body {
             margin: 0;
@@ -19,7 +19,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            font-family: 'Space Grotesk', sans-serif; /* Space Grotesk Schriftart */
+            font-family: 'Roboto Mono', monospace; /* Roboto Mono Schriftart */
             min-height: 100vh;
         }
         h1 {
@@ -48,7 +48,7 @@
             font-size: 1.2rem; /* Schriftgröße für die Buttons */
             text-decoration: none;
             padding: 10px 20px;
-            font-family: 'Space Grotesk', sans-serif; /* Space Grotesk Schriftart für Buttons */
+            font-family: 'Roboto Mono', monospace; /* Roboto Mono Schriftart für Buttons */
             display: inline-block;
             border: none; /* Keine Umrandung */
             cursor: pointer;
@@ -65,7 +65,7 @@
             padding: 20px;
             font-size: 0.9rem;
             text-align: center;
-            font-family: 'Space Grotesk', sans-serif; /* Space Grotesk Schriftart für Impressum */
+            font-family: 'Roboto Mono', monospace; /* Roboto Mono Schriftart für Impressum */
         }
 
         footer .imprint-button {
@@ -132,7 +132,7 @@
 
     <!-- Impressum-Inhalt -->
     <div class="imprint-content" id="impressum-content">
-        <h2>Imprint</h2>
+        <h2>Imprint</h2> <!-- Überschrift geändert -->
         <p><strong>Information pursuant to Sect. 5 German Telemedia Act (TMG)</strong></p>
         <p><strong>Responsible for Content:</strong><br>
         Niklas Peter<br>
@@ -189,22 +189,45 @@
             renderPage(currentPage);
         });
 
+        // Seite rendern
         function renderPage(pageNum) {
             pdfDoc.getPage(pageNum).then(page => {
+                const scale = 2.0; // Höhere Skalierung für bessere Qualität
+                const viewport = page.getViewport({ scale: scale });
                 const canvas = document.getElementById('pdf-canvas');
                 const context = canvas.getContext('2d');
-                const viewport = page.getViewport({ scale: 1 });
                 canvas.width = viewport.width;
                 canvas.height = viewport.height;
-                page.render({ canvasContext: context, viewport: viewport });
+
+                const renderContext = {
+                    canvasContext: context,
+                    viewport: viewport,
+                    intent: 'print' // Farbkorrektur für Druckmodus
+                };
+                page.render(renderContext);
             });
         }
 
-        // Impressum umschalten
+        // Vorschau durchklickbar machen
+        document.getElementById('pdf-canvas').addEventListener('click', function() {
+            currentPage = (currentPage % pdfDoc.numPages) + 1; // Nächste Seite laden
+            renderPage(currentPage);
+        });
+
+        // Impressum anzeigen/ausblenden
         function toggleImpressum() {
             const content = document.getElementById('impressum-content');
-            content.style.display = content.style.display === 'none' ? 'block' : 'none';
+            if (content.style.display === 'none' || content.style.display === '') {
+                content.style.display = 'block'; // Sichtbar machen
+            } else {
+                content.style.display = 'none'; // Ausblenden
+            }
         }
+
+        // Initialer Zustand für Impressum-Inhalt
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById('impressum-content').style.display = 'none'; // Beim Laden ausblenden
+        });
     </script>
 </body>
 </html>
