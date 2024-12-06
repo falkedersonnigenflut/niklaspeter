@@ -132,7 +132,50 @@
 
     <!-- Impressum-Inhalt -->
     <div class="imprint-content" id="impressum-content">
-        <!-- Impressum- und Datenschutzhinweise bleiben unverändert -->
+        <h2>Imprint</h2>
+        <p><strong>Information pursuant to Sect. 5 German Telemedia Act (TMG)</strong></p>
+        <p><strong>Responsible for Content:</strong><br>
+        Niklas Peter<br>
+        Hofgartenstraße 11<br>
+        63579 Freigericht<br>
+        Germany</p>
+
+        <p><strong>Contact:</strong><br>
+        E-mail: <a href="mailto:hello@niklaspeter.de" style="color: white; text-decoration: none;">hello@niklaspeter.de</a><br>
+        Phone: +49 160 94417151</p>
+
+        <p><strong>EU Online Dispute Resolution:</strong><br>
+        The European Commission provides a platform for online dispute resolution (ODR): <a href="https://ec.europa.eu/consumers/odr/" style="color: white; text-decoration: none;">https://ec.europa.eu/consumers/odr/</a><br>
+        Our e-mail address can be found above in the legal notice.</p>
+
+        <p><strong>Dispute Resolution Proceedings in front of a Consumer Arbitration Board:</strong><br>
+        We are not willing or obliged to participate in dispute resolution proceedings in front of a consumer arbitration board.</p>
+
+        <h2>Privacy Policy</h2>
+        <p>This privacy policy outlines the type, scope, and purpose of personal data processing on this website.</p>
+
+        <p><strong>1. Responsible Entity:</strong><br>
+        Niklas Peter<br>
+        Hofgartenstraße 11<br>
+        63579 Freigericht<br>
+        Germany<br>
+        E-mail: <a href="mailto:hello@niklaspeter.de" style="color: white; text-decoration: none;">hello@niklaspeter.de</a></p>
+
+        <p><strong>2. Hosting and Data Processing by Third-Party Providers:</strong><br>
+        This website is hosted by Squarespace and GitHub, who collect technical data (such as IP addresses) to maintain site functionality and security. For further information, please refer to their privacy policies:</p>
+        <ul>
+            <li><a href="https://www.squarespace.com/privacy" style="color: white; text-decoration: none;">Squarespace Privacy Policy</a></li>
+            <li><a href="https://docs.github.com/en/github/site-policy/github-privacy-statement" style="color: white; text-decoration: none;">GitHub Privacy Policy</a></li>
+        </ul>
+
+        <p><strong>3. Cookies and Analytics:</strong><br>
+        We do not actively set cookies or track user data on this website. However, our hosting providers may collect technical data as described in their privacy policies.</p>
+
+        <p><strong>4. User Rights:</strong><br>
+        You have the right to request information about the data stored about you, as well as to request correction, restriction, or deletion of this data under applicable data protection laws.</p>
+
+        <p><strong>Contact for Data Privacy Inquiries:</strong><br>
+        For any inquiries regarding data privacy, please contact us at the e-mail address provided above.</p>
     </div>
 
     <script>
@@ -146,45 +189,22 @@
             renderPage(currentPage);
         });
 
-        // Seite rendern
         function renderPage(pageNum) {
             pdfDoc.getPage(pageNum).then(page => {
-                const scale = 2.0; // Höhere Skalierung für bessere Qualität
-                const viewport = page.getViewport({ scale: scale });
                 const canvas = document.getElementById('pdf-canvas');
                 const context = canvas.getContext('2d');
+                const viewport = page.getViewport({ scale: 1 });
                 canvas.width = viewport.width;
                 canvas.height = viewport.height;
-
-                const renderContext = {
-                    canvasContext: context,
-                    viewport: viewport,
-                    intent: 'print' // Farbkorrektur für Druckmodus
-                };
-                page.render(renderContext);
+                page.render({ canvasContext: context, viewport: viewport });
             });
         }
 
-        // Vorschau durchklickbar machen
-        document.getElementById('pdf-canvas').addEventListener('click', function() {
-            currentPage = (currentPage % pdfDoc.numPages) + 1; // Nächste Seite laden
-            renderPage(currentPage);
-        });
-
-        // Impressum anzeigen/ausblenden
+        // Impressum umschalten
         function toggleImpressum() {
             const content = document.getElementById('impressum-content');
-            if (content.style.display === 'none' || content.style.display === '') {
-                content.style.display = 'block'; // Sichtbar machen
-            } else {
-                content.style.display = 'none'; // Ausblenden
-            }
+            content.style.display = content.style.display === 'none' ? 'block' : 'none';
         }
-
-        // Initialer Zustand für Impressum-Inhalt
-        document.addEventListener("DOMContentLoaded", function() {
-            document.getElementById('impressum-content').style.display = 'none'; // Beim Laden ausblenden
-        });
     </script>
 </body>
 </html>
