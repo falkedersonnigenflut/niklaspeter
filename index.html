@@ -8,6 +8,7 @@
     <link rel="icon" type="image/png" href="241101_Favicon.png"> <!-- Favicon -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.5.141/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.5.141/pdf.worker.min.js"></script>
+    <meta name="robots" content="noindex, nofollow"> <!-- Verhindert Google-Indexierung -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
 
@@ -19,7 +20,6 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
             font-family: 'Roboto Mono', monospace;
             min-height: 100vh;
         }
@@ -31,91 +31,111 @@
             width: 100%;
             max-width: 90%;
         }
-        #password-container {
-            text-align: center;
-        }
-        input {
-            padding: 10px;
-            font-size: 1.2rem;
-            margin-top: 20px;
-            border: none;
-            outline: none;
-            text-align: center;
-            font-family: 'Roboto Mono', monospace;
-        }
-        button {
-            padding: 10px 20px;
-            margin-top: 10px;
-            font-size: 1.2rem;
-            cursor: pointer;
-            font-family: 'Roboto Mono', monospace;
-            background: none;
-            color: white;
-            border: none;
-            transition: font-weight 0.3s;
-        }
-        button:hover {
-            font-weight: bold;
-        }
-        #content {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
         #pdf-canvas {
             width: 80%;
             max-height: 80vh;
             margin-top: 20px;
             cursor: pointer;
         }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .button-container a, .button-container button {
+            color: white;
+            font-size: 1.2rem;
+            text-decoration: none;
+            padding: 10px 20px;
+            font-family: 'Roboto Mono', monospace;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+            transition: font-weight 0.3s;
+            background-color: transparent;
+        }
+        .button-container a:hover, .button-container button:hover {
+            font-weight: bold;
+        }
+
+        /* Impressum-Button */
+        footer {
+            margin-top: auto;
+            padding: 20px;
+            font-size: 0.9rem;
+            text-align: center;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        footer .imprint-button {
+            color: white;
+            background-color: transparent;
+            border: none;
+            font-size: 1.2rem;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: font-weight 0.3s;
+        }
+        footer .imprint-button:hover {
+            font-weight: bold;
+        }
+
+        footer #impressum-content {
+            display: none; /* Standardmäßig versteckt */
+            background-color: black;
+            color: white;
+            text-align: justify;
+            font-size: 0.8rem;
+            max-width: 90%;
+            margin: auto;
+        }
     </style>
 </head>
 <body>
+    <h1>Niklas Peter Portfolio</h1>
 
-    <!-- Passwortabfrage -->
-    <div id="password-container">
-        <h1>Enter Password</h1>
-        <input type="password" id="password-input" placeholder="Enter Password">
-        <button onclick="checkPassword()">Submit</button>
+    <!-- PDF-Vorschau -->
+    <canvas id="pdf-canvas"></canvas>
+
+    <!-- Button Container -->
+    <div class="button-container">
+        <a href="Portfolio_Peter_24.pdf" target="_blank">Fullscreen</a>
+        <a href="Portfolio_Peter_24.pdf" download>Download</a>
+        <a href="mailto:hello@niklaspeter.de">Contact</a>
+        <button class="imprint-button" onclick="toggleImpressum()">Imprint & Privacy Policy</button>
     </div>
 
-    <!-- Versteckter Portfolio-Bereich -->
-    <div id="content">
-        <h1>Niklas Peter Portfolio</h1>
-        <canvas id="pdf-canvas"></canvas>
+    <!-- Impressum (erst nach Klick sichtbar) -->
+    <footer>
+        <div id="impressum-content">
+            <h2>Imprint</h2>
+            <p><strong>Responsible for Content:</strong><br>
+            Niklas Peter<br>
+            Hofgartenstraße 11<br>
+            63579 Freigericht<br>
+            Germany</p>
 
-        <div class="button-container">
-            <a href="Portfolio_Peter_24.pdf" target="_blank">Fullscreen</a>
-            <a href="Portfolio_Peter_24.pdf" download>Download</a>
-            <a href="mailto:hello@niklaspeter.de">Contact</a>
+            <p><strong>Contact:</strong><br>
+            E-mail: <a href="mailto:hello@niklaspeter.de" style="color: white; text-decoration: none;">hello@niklaspeter.de</a><br>
+            Phone: +49 160 94417151</p>
+
+            <h2>Privacy Policy</h2>
+            <p>This website does not track or store any personal data. For inquiries, contact us via email.</p>
         </div>
-    </div>
+    </footer>
 
     <script>
         let pdfDoc = null;
         let currentPage = 1;
 
-        // Passwortprüfung
-        function checkPassword() {
-            const password = document.getElementById("password-input").value;
-            if (password === "itwontfailbecauseofme") {
-                document.getElementById("password-container").style.display = "none";
-                document.getElementById("content").style.display = "flex";
-                loadPDF();
-            }
-        }
+        const url = 'Portfolio_Peter_24.pdf';
+        pdfjsLib.getDocument(url).promise.then(pdf => {
+            pdfDoc = pdf;
+            renderPage(currentPage);
+        });
 
-        // PDF laden
-        function loadPDF() {
-            const url = 'Portfolio_Peter_24.pdf';
-            pdfjsLib.getDocument(url).promise.then(pdf => {
-                pdfDoc = pdf;
-                renderPage(currentPage);
-            });
-        }
-
-        // Seite rendern
         function renderPage(pageNum) {
             pdfDoc.getPage(pageNum).then(page => {
                 const scale = 2.0;
@@ -127,19 +147,25 @@
 
                 const renderContext = {
                     canvasContext: context,
-                    viewport: viewport,
-                    intent: 'print'
+                    viewport: viewport
                 };
                 page.render(renderContext);
             });
         }
 
-        // Durchklickbare PDF-Vorschau
         document.getElementById('pdf-canvas').addEventListener('click', function() {
             currentPage = (currentPage % pdfDoc.numPages) + 1;
             renderPage(currentPage);
         });
-    </script>
 
+        function toggleImpressum() {
+            const content = document.getElementById('impressum-content');
+            content.style.display = content.style.display === 'none' ? 'block' : 'none';
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById('impressum-content').style.display = 'none';
+        });
+    </script>
 </body>
 </html>
