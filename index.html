@@ -2,70 +2,352 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Portfolio 2026 – Niklas Peter</title>
-  <meta name="description" content="Niklas Peter Architecture Portfolio 2026"/>
+  <meta name="description" content="Niklas Peter Architecture Portfolio 2026" />
   <link rel="icon" type="image/png" href="241101_Favicon.png" />
 
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.5.141/pdf.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.5.141/pdf.worker.min.js"></script>
 
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      padding: 0;
-      background-color: black;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      background: #000;
+      color: #fff;
       font-family: 'Roboto Mono', monospace;
       min-height: 100vh;
-    }
-
-    /* -------- Passwort-Screen -------- */
-    #password-screen {
       display: flex;
       flex-direction: column;
+      align-items: center;
+    }
+
+    a, button { color: inherit; font: inherit; }
+
+    :focus-visible { outline: 1px solid #fff; outline-offset: 4px; }
+
+    h1 {
+      font-size: clamp(2rem, 8vw, 5rem);
+      font-weight: 700;
+      margin: 0.4em 0 0;
+      text-align: center;
+      max-width: 90%;
+    }
+
+    /* -------- Viewer -------- */
+    #viewer {
+      position: relative;
+      width: 80%;
+      margin-top: 20px;
+      display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      touch-action: pan-y;
+      user-select: none;
+    }
+
+    #viewer:fullscreen {
       width: 100%;
+      height: 100%;
+      margin: 0;
+      background: #000;
     }
 
-    #password-screen input {
-      background: transparent;
-      border: 1px solid white;
-      color: white;
-      padding: 12px;
-      font-size: 1rem;
-      font-family: 'Roboto Mono', monospace;
-      margin-top: 20px;
-      width: 260px;
-      text-align: center;
-    }
-
-    #password-screen button {
-      margin-top: 20px;
-      background: transparent;
-      border: none;
-      color: white;
-      font-size: 1.1rem;
+    #pdf-canvas {
+      display: block;
+      max-width: 100%;
       cursor: pointer;
     }
 
-    #password-error {
-      margin-top: 15px;
+    #loader {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 0.9rem;
-      color: #ff6b6b;
-      display: none;
+      min-height: 30vh;
     }
 
-    /* -------- Hauptinhalt -------- */
-    #site-content {
-      display: none;
+    #loader[hidden] { display: none; }
+
+    /* Klickzonen links / rechts */
+    .nav-zone {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 50%;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+    }
+    .nav-zone.prev { left: 0; cursor: w-resize; }
+    .nav-zone.next { right: 0; cursor: e-resize; }
+
+    /* -------- Steuerleiste -------- */
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 14px;
+      font-size: 0.95rem;
+    }
+
+    .controls button {
+      background: none;
+      border: 1px solid #fff;
+      width: 2.2em;
+      height: 2.2em;
+      cursor: pointer;
+    }
+    .controls button:disabled { opacity: 0.3; cursor: default; }
+
+    #page-count { min-width: 5.5em; text-align: center; }
+
+
+    /* -------- Links -------- */
+    .button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .button-container a,
+    .button-container button {
+      font-size: 1.2rem;
+      text-decoration: none;
+      padding: 10px 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .button-container a:hover,
+    .button-container button:hover { font-weight: 700; }
+
+    .imprint-content {
+      font-size: 0.8rem;
+      max-width: 90%;
+    }
+    .imprint-content a { text-decoration: none; }
+
+    footer {
+      margin-top: auto;
+      padding: 20px;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    @media (max-width: 700px) {
+      #viewer { width: 94%; }
+      .button-container a,
+      .button-container button { font-size: 1rem; padding: 8px 10px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Portfolio 2026</h1>
+
+  <div id="viewer" aria-label="Portfolio viewer">
+    <canvas id="pdf-canvas" role="img" aria-label="Portfolio page"></canvas>
+    <button class="nav-zone prev" aria-label="Previous page" tabindex="-1"></button>
+    <button class="nav-zone next" aria-label="Next page" tabindex="-1"></button>
+    <div id="loader">Loading portfolio …</div>
+  </div>
+
+  <div class="controls">
+    <button id="prev" aria-label="Previous page">‹</button>
+    <span id="page-count" aria-live="polite">– / –</span>
+    <button id="next" aria-label="Next page">›</button>
+  </div>
+
+  <div class="button-container">
+    <button id="fullscreen-btn">Fullscreen</button>
+    <a href="Peter_Portfolio.pdf" download>Download</a>
+    <a href="mailto:hello@niklaspeter.de">Contact</a>
+    <button id="imprint-btn" aria-expanded="false" aria-controls="impressum-content">Imprint & Privacy Policy</button>
+  </div>
+
+  <div class="imprint-content" id="impressum-content" hidden>
+    <h2>Imprint</h2>
+    <p><strong>Responsible:</strong><br>Niklas Peter<br>
+      <a href="mailto:hello@niklaspeter.de">hello@niklaspeter.de</a>
+    </p>
+  </div>
+
+  <footer>© 2026 Niklas Peter</footer>
+
+<script>
+  const PDF_URL = "Peter_Portfolio.pdf";
+
+
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.5.141/pdf.worker.min.js";
+
+  const viewer   = document.getElementById("viewer");
+  const canvas   = document.getElementById("pdf-canvas");
+  const loader   = document.getElementById("loader");
+  const counter  = document.getElementById("page-count");
+  const prevBtn  = document.getElementById("prev");
+  const nextBtn  = document.getElementById("next");
+
+  let pdfDoc = null;
+  let currentPage = 1;
+  let renderTask = null;
+  const cache = new Map();          // "seite@breite" -> fertig gerenderte Canvas
+  const CACHE_LIMIT = 6;
+
+  /* ---------- Rendern ---------- */
+  function targetCssWidth(page) {
+    const vp = page.getViewport({ scale: 1 });
+    const ratio = vp.width / vp.height;
+    const isFs = document.fullscreenElement === viewer;
+    const maxW = viewer.clientWidth;
+    const maxH = window.innerHeight * (isFs ? 1 : 0.8);
+    return Math.floor(Math.min(maxW, maxH * ratio));
+  }
+
+  async function renderToCanvas(num, cssWidth) {
+    const key = num + "@" + cssWidth;
+    if (cache.has(key)) return cache.get(key);
+
+    const page = await pdfDoc.getPage(num);
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const base = page.getViewport({ scale: 1 });
+    const viewport = page.getViewport({ scale: (cssWidth / base.width) * dpr });
+
+    const off = document.createElement("canvas");
+    off.width = Math.floor(viewport.width);
+    off.height = Math.floor(viewport.height);
+    await page.render({ canvasContext: off.getContext("2d"), viewport }).promise;
+
+    cache.set(key, off);
+    if (cache.size > CACHE_LIMIT) cache.delete(cache.keys().next().value);
+    return off;
+  }
+
+  async function show(num) {
+    if (!pdfDoc) return;
+    const page = await pdfDoc.getPage(num);
+    const cssWidth = targetCssWidth(page);
+    const token = Symbol();
+    renderTask = token;
+
+    const src = await renderToCanvas(num, cssWidth);
+    if (renderTask !== token) return;   // inzwischen weitergeblättert
+
+    canvas.width = src.width;
+    canvas.height = src.height;
+    canvas.style.width = cssWidth + "px";
+    canvas.getContext("2d").drawImage(src, 0, 0);
+    canvas.setAttribute("aria-label", "Portfolio page " + num + " of " + pdfDoc.numPages);
+    loader.hidden = true;
+
+    // Nachbarseiten im Hintergrund vorbereiten
+    [num + 1, num - 1].forEach(n => {
+      if (n >= 1 && n <= pdfDoc.numPages) renderToCanvas(n, cssWidth).catch(() => {});
+    });
+  }
+
+  /* ---------- Navigation ---------- */
+  function goTo(num) {
+    if (!pdfDoc) return;
+    num = Math.max(1, Math.min(pdfDoc.numPages, num));
+    currentPage = num;
+    counter.textContent = num + " / " + pdfDoc.numPages;
+    prevBtn.disabled = num === 1;
+    nextBtn.disabled = num === pdfDoc.numPages;
+    history.replaceState(null, "", "#page=" + num);
+    show(num);
+  }
+
+  const next = () => goTo(currentPage + 1);
+  const prev = () => goTo(currentPage - 1);
+
+  prevBtn.addEventListener("click", prev);
+  nextBtn.addEventListener("click", next);
+  viewer.querySelector(".nav-zone.prev").addEventListener("click", prev);
+  viewer.querySelector(".nav-zone.next").addEventListener("click", next);
+
+  document.addEventListener("keydown", e => {
+    if (e.target.closest("input, textarea")) return;
+    if (e.key === "ArrowRight" || e.key === "PageDown") { e.preventDefault(); next(); }
+    if (e.key === "ArrowLeft"  || e.key === "PageUp")   { e.preventDefault(); prev(); }
+    if (e.key === "Home") goTo(1);
+    if (e.key === "End" && pdfDoc) goTo(pdfDoc.numPages);
+  });
+
+  // Wischen auf Touchgeräten
+  let touchX = null, touchY = null;
+  viewer.addEventListener("touchstart", e => {
+    touchX = e.touches[0].clientX;
+    touchY = e.touches[0].clientY;
+  }, { passive: true });
+  viewer.addEventListener("touchend", e => {
+    if (touchX === null) return;
+    const dx = e.changedTouches[0].clientX - touchX;
+    const dy = e.changedTouches[0].clientY - touchY;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) (dx < 0 ? next : prev)();
+    touchX = null;
+  });
+
+  // Bei Größenänderung neu rendern
+  let resizeTimer;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => { cache.clear(); show(currentPage); }, 200);
+  });
+
+  /* ---------- Vollbild ---------- */
+  const fsBtn = document.getElementById("fullscreen-btn");
+  fsBtn.addEventListener("click", () => {
+    if (viewer.requestFullscreen) {
+      document.fullscreenElement ? document.exitFullscreen() : viewer.requestFullscreen();
+    } else {
+      window.open(PDF_URL, "_blank");   // z. B. iPhone Safari
+    }
+  });
+  document.addEventListener("fullscreenchange", () => {
+    fsBtn.textContent = document.fullscreenElement ? "Exit fullscreen" : "Fullscreen";
+    cache.clear();
+    show(currentPage);
+  });
+
+  /* ---------- Impressum ---------- */
+  const imprintBtn = document.getElementById("imprint-btn");
+  const imprint = document.getElementById("impressum-content");
+  imprintBtn.addEventListener("click", () => {
+    imprint.hidden = !imprint.hidden;
+    imprintBtn.setAttribute("aria-expanded", String(!imprint.hidden));
+    if (!imprint.hidden) imprint.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  });
+
+  /* ---------- Laden ---------- */
+  const task = pdfjsLib.getDocument({ url: PDF_URL, disableAutoFetch: true });
+  task.onProgress = ({ loaded, total }) => {
+    if (total) loader.textContent = "Loading portfolio … " + Math.round(loaded / total * 100) + " %";
+  };
+  task.promise.then(pdf => {
+    pdfDoc = pdf;
+    const m = location.hash.match(/page=(\d+)/);
+    goTo(m ? Number(m[1]) : 1);
+  }).catch(() => {
+    loader.innerHTML = 'The viewer could not load. <a href="' + PDF_URL + '">Open the PDF directly</a>.';
+  });
+</script>
+
+</body>
+</html>
       width: 100%;
       flex-direction: column;
       align-items: center;
